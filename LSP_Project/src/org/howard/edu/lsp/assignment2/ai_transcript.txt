@@ -1,0 +1,99 @@
+-ETL Pipeline Process-
+
+-Extract-
+
+Reads data from data/products.csv line by line.
+
+-Transform-
+
+Converts product names to UPPERCASE
+
+Applies a 10% discount to Electronics items
+
+Changes category to "Premium Electronics" if the discounted price exceeds $500
+
+Rounds prices to 2 decimal places (round half up)
+
+Adds a PriceRange column based on the final price:
+
+$0.00–$10.00 → Low
+
+$10.01–$100.00 → Medium
+
+$100.01–$500.00 → High
+
+$500.01 and above → Premium
+
+-Load-
+
+Writes the transformed results to data/transformed_products.csv with the correct header row.
+
+-Design Notes & Decomposition-
+
+The program is divided into logical stages:
+
+extract(...): reads the input CSV rows into memory.
+
+transformRow(...): applies all transformations in the required order.
+
+load(...): writes the final transformed data to the output CSV.
+
+This decomposition makes the code easier to test and maintain, while closely following the ETL model.
+
+-Running the Program-
+
+Ensure your project structure matches:
+
+JavaProjectRoot/
+├── src/
+│   └── org/howard/edu/lsp/assignment2/ETLPipeline.java
+├── data/
+│   ├── products.csv
+│   └── transformed_products.csv
+
+
+Run the program from the project root so relative paths resolve correctly.
+
+To execute in Eclipse/IntelliJ: right-click on ETLPipeline.java → Run As → Java Application.
+
+-Testing-
+
+The program was tested against three scenarios:
+
+Case A (Normal Input): data/products.csv with several products. Verified output against the provided golden file.
+
+Case B (Empty Input): Input file with only a header. Program produced output with only the header row.
+
+Case C (Missing Input): Input file absent. Program printed a clear error message without crashing.
+
+Run summary (rows read, transformed, skipped, output path) is printed at the end of each run.
+
+-Key Learnings-
+
+Java Package Structure: Classes inside src/org/howard/edu/lsp/assignment2 must declare the package at the top.
+
+Relative Paths: Files must be read/written from data/ at the project root, not from inside src/.
+
+IDE Behavior: If CSV files don’t appear in Eclipse/IntelliJ, refreshing the project often resolves the issue.
+
+-AI Usage Review-
+
+I used AI tools to clarify project requirements and Java concepts.
+
+Example Prompt:
+"What is the difference between a Java class and a Java file?"
+
+AI Response (excerpt):
+
+A .java file is a container for one or more Java classes.
+
+If it contains a public class, the filename must match that class exactly.
+
+Example: HelloWorld.java must contain public class HelloWorld.
+
+**Summary:**
+- `.java` file = the physical file (container for code)
+- Java class = the blueprint/structure defined within the file
+
+How I used it:
+This clarified why a structured Java class (not just loose code in a file) was required for this assignment.
